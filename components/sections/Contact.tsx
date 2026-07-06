@@ -45,29 +45,29 @@ export default function Contact() {
     message: "",
   });
 
-  // Remove o observer de animação
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       entries.forEach((entry) => {
-  //         if (entry.isIntersecting) {
-  //           entry.target.classList.add("animate-fade-in-up");
-  //         }
-  //       });
-  //     },
-  //     { threshold: 0.1 }
-  //   );
-  //
-  //   const elements = sectionRef.current?.querySelectorAll(".contact-animate");
-  //   elements?.forEach((el) => observer.observe(el));
-  //
-  //   return () => observer.disconnect();
-  // }, []);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-fade-in-up");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const elements = sectionRef.current?.querySelectorAll(".contact-animate");
+    elements?.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
+    // Simula envio
     await new Promise((resolve) => setTimeout(resolve, 1500));
     
     setIsLoading(false);
@@ -95,10 +95,12 @@ export default function Contact() {
 
   return (
     <section id="contato" ref={sectionRef} className="py-24 bg-white relative overflow-hidden">
+      {/* Decorative Elements */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#C9A84C]/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#C9A84C]/5 rounded-full blur-2xl" />
 
       <div className="container mx-auto px-4 relative z-10">
+        {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-block text-[#C9A84C] font-semibold text-sm uppercase tracking-[0.2em] mb-4">
             Contato
@@ -114,13 +116,15 @@ export default function Contact() {
         </div>
 
         <div className="grid lg:grid-cols-5 gap-8">
+          {/* Contact Info */}
           <div className="lg:col-span-2 space-y-6">
             {contactInfo.map((item, index) => {
               const Icon = item.icon;
               return (
                 <div
                   key={index}
-                  className="bg-[#0A1628] rounded-xl p-6 hover:shadow-xl hover:shadow-[#C9A84C]/10 transition-all duration-300 group border border-white/5 hover:border-[#C9A84C]/20"
+                  className="contact-animate opacity-0 bg-[#0A1628] rounded-xl p-6 hover:shadow-xl hover:shadow-[#C9A84C]/10 transition-all duration-300 group border border-white/5 hover:border-[#C9A84C]/20"
+                  style={{ transitionDelay: `${index * 100}ms` }}
                 >
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-xl bg-[#C9A84C]/10 flex items-center justify-center group-hover:bg-[#C9A84C]/20 transition-all duration-300">
@@ -148,7 +152,8 @@ export default function Contact() {
               );
             })}
 
-            <div>
+            {/* WhatsApp Button */}
+            <div className="contact-animate opacity-0">
               <Button
                 onClick={handleWhatsApp}
                 className="w-full bg-[#25D366] hover:bg-[#20B85E] text-white font-semibold py-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg shadow-[#25D366]/20 group"
@@ -159,8 +164,9 @@ export default function Contact() {
             </div>
           </div>
 
+          {/* Contact Form */}
           <div className="lg:col-span-3">
-            <div className="bg-[#0A1628] rounded-2xl p-8 border border-white/5">
+            <div className="contact-animate opacity-0 bg-[#0A1628] rounded-2xl p-8 border border-white/5">
               <h3 className="text-2xl font-serif font-bold text-white mb-6">
                 Envie uma Mensagem
               </h3>
@@ -253,11 +259,11 @@ export default function Contact() {
 
                 <p className="text-white/30 text-xs text-center">
                   Ao enviar, você concorda com nossa{" "}
-                  <a href="/politicas" className="text-[#C9A84C] hover:underline">
+                  <a href="/politica-privacidade" className="text-[#C9A84C] hover:underline">
                     Política de Privacidade
                   </a>
                   {" "}e{" "}
-                  <a href="/termos" className="text-[#C9A84C] hover:underline">
+                  <a href="/termos-uso" className="text-[#C9A84C] hover:underline">
                     Termos de Uso
                   </a>
                 </p>
