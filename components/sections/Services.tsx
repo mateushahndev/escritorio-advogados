@@ -46,23 +46,24 @@ const services = [
 export default function Services() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-fade-in-up");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const elements = sectionRef.current?.querySelectorAll(".service-card");
-    elements?.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
+  // Remove o observer de animação
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       entries.forEach((entry) => {
+  //         if (entry.isIntersecting) {
+  //           entry.target.classList.add("animate-fade-in-up");
+  //         }
+  //       });
+  //     },
+  //     { threshold: 0.1 }
+  //   );
+  //
+  //   const elements = sectionRef.current?.querySelectorAll(".service-card");
+  //   elements?.forEach((el) => observer.observe(el));
+  //
+  //   return () => observer.disconnect();
+  // }, []);
 
   return (
     <section id="areas" ref={sectionRef} className="py-24 bg-white relative overflow-hidden">
@@ -89,19 +90,15 @@ export default function Services() {
             return (
               <div
                 key={index}
-                className="service-card opacity-0 group relative p-8 bg-[#0A1628] rounded-2xl hover:shadow-2xl hover:shadow-[#C9A84C]/10 transition-all duration-500 hover:-translate-y-2 border border-white/5 hover:border-[#C9A84C]/20"
-                style={{ transitionDelay: `${index * 100}ms` }}
+                className="group relative p-8 bg-[#0A1628] rounded-2xl hover:shadow-2xl hover:shadow-[#C9A84C]/10 transition-all duration-500 hover:-translate-y-2 border border-white/5 hover:border-[#C9A84C]/20"
               >
-                {/* Gold Gradient Background */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#C9A84C]/0 via-[#C9A84C]/0 to-[#C9A84C]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 <div className="relative z-10">
-                  {/* Icon */}
                   <div className="w-14 h-14 rounded-xl bg-[#C9A84C]/10 flex items-center justify-center mb-6 group-hover:bg-[#C9A84C]/20 transition-all duration-300 group-hover:scale-110">
                     <Icon className="w-7 h-7 text-[#C9A84C]" />
                   </div>
 
-                  {/* Content */}
                   <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#C9A84C] transition-colors duration-300">
                     {service.title}
                   </h3>
@@ -109,7 +106,6 @@ export default function Services() {
                     {service.description}
                   </p>
 
-                  {/* Decorative Line */}
                   <div className="absolute bottom-8 right-8 w-16 h-[2px] bg-[#C9A84C]/20 group-hover:w-24 transition-all duration-500" />
                 </div>
               </div>
