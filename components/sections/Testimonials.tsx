@@ -88,6 +88,9 @@ export default function Testimonials() {
                     alt={testimonials[currentIndex].name}
                     fill
                     className="object-cover"
+                    quality={75}
+                    loading="lazy"
+                    sizes="96px"
                   />
                 </div>
               </div>

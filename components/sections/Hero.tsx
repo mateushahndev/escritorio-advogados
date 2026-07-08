@@ -155,9 +155,10 @@ export default function Hero() {
                     fill
                     className="object-cover object-center"
                     priority
-                    quality={100}
-                    unoptimized
+                    quality={85}
                     sizes="(max-width: 768px) 100vw, 35vw"
+                    loading="eager"
+                    fetchPriority="high"
                   />
                   {/* Borda dourada sutil */}
                   <div className="absolute inset-0 border border-[#C9A84C]/10 rounded-2xl pointer-events-none" />

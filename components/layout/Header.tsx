@@ -24,11 +24,34 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Fecha o menu ao mudar o tamanho da tela
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Previne scroll quando o menu mobile está aberto
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "glass shadow-lg" : "bg-transparent"
+        isScrolled || isMobileMenuOpen ? "glass shadow-lg" : "bg-transparent"
       )}
     >
       <div className="container mx-auto px-4">
@@ -69,22 +92,24 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-white p-2 hover:text-[#C9A84C] transition-colors"
+            className="md:hidden text-white p-2 hover:text-[#C9A84C] transition-colors z-50"
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
+      </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-white/10 animate-fade-in-up">
-            <nav className="flex flex-col gap-4">
+      {/* Mobile Menu - Overlay com fundo sólido */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 top-0 left-0 right-0 bottom-0 bg-[#0A1628] z-40 animate-fade-in-up">
+          <div className="container mx-auto px-4 pt-24">
+            <nav className="flex flex-col gap-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-white/80 hover:text-[#C9A84C] transition-colors text-sm py-2"
+                  className="text-white/80 hover:text-[#C9A84C] transition-colors text-lg font-medium py-3 border-b border-white/5"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
@@ -92,15 +117,15 @@ export default function Header() {
               ))}
               <Link
                 href="#contato"
-                className="bg-[#C9A84C] text-[#0A1628] px-6 py-3 rounded-full text-sm font-semibold text-center hover:bg-[#B8973A] transition-all duration-300 mt-2"
+                className="bg-[#C9A84C] text-[#0A1628] px-6 py-4 rounded-full text-center text-lg font-semibold hover:bg-[#B8973A] transition-all duration-300 mt-4"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Fale Comigo
               </Link>
             </nav>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </header>
   );
 }
