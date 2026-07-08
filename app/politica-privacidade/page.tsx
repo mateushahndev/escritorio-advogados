@@ -94,7 +94,7 @@ export default function PoliticasPage() {
             </p>
             <ul className="mt-2 space-y-1">
               <li>E-mail: privacidade@isabellamendes.adv.br</li>
-              <li>Telefone: (61) 99999-9999</li>
+              <li>Telefone: (11) 11111-1111</li>
             </ul>
           </section>
         </div>

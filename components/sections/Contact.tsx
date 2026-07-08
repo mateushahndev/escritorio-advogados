@@ -11,8 +11,8 @@ const contactInfo = [
   {
     icon: Phone,
     label: "Telefone",
-    value: "(61) 99999-9999",
-    href: "tel:+5561999999999",
+    value: "(11) 11111-1111",
+    href: "tel:+5511111111111",
   },
   {
     icon: Mail,
@@ -90,7 +90,7 @@ export default function Contact() {
     const message = encodeURIComponent(
       "Olá Dra. Isabella, gostaria de agendar uma consulta."
     );
-    window.open(`https://wa.me/5561999999999?text=${message}`, "_blank");
+    window.open(`https://wa.me/5511111111111?text=${message}`, "_blank");
   };
 
   return (
@@ -212,7 +212,7 @@ export default function Contact() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="(61) 99999-9999"
+                      placeholder="(11) 11111-1111"
                       className="mt-1.5 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-[#C9A84C] focus:ring-[#C9A84C]/20 transition-colors"
                       required
                     />
