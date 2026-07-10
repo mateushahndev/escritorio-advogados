@@ -4,11 +4,15 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Shield, Award, Users, CheckCircle } from "lucide-react";
+import { useScreenshot } from "@/context/ScreenshotContext";
 
 export default function Hero() {
+  const { isScreenshotMode } = useScreenshot();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (isScreenshotMode) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -24,7 +28,7 @@ export default function Hero() {
     elements?.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, []);
+  }, [isScreenshotMode]);
 
   return (
     <section 
@@ -36,7 +40,6 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#0A1628] via-[#0A1628]/95 to-[#0A1628]" />
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#C9A84C]/5 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#C9A84C]/5 rounded-full blur-2xl" />
-        {/* Grid Pattern */}
         <div className="absolute inset-0 opacity-[0.03] bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiNmZmZmZmYiIG9wYWNpdHk9IjAuMSIgZD0iTTM2IDM0aDR2MWgtNHoiLz48cGF0aCBkPSJNMzAgMzBoMXYxaC0xeiIvPjwvZz48L3N2Zz4=')]" />
       </div>
 
@@ -45,15 +48,15 @@ export default function Hero() {
           {/* Left Column - Content */}
           <div className="order-2 lg:order-1">
             {/* Badge */}
-            <div className="hero-animate opacity-0 inline-flex items-center gap-2 bg-[#C9A84C]/10 border border-[#C9A84C]/20 rounded-full px-4 py-2 mb-6">
+            <div className={`${isScreenshotMode ? '' : 'hero-animate opacity-0'} inline-flex items-center gap-2 bg-[#C9A84C]/10 border border-[#C9A84C]/20 rounded-full px-4 py-2 mb-6`}>
               <Shield className="w-4 h-4 text-[#C9A84C]" />
               <span className="text-xs uppercase tracking-wider text-[#C9A84C] font-semibold">
                 Mais de 12 anos defendendo a justiça
               </span>
             </div>
 
-            {/* Título Persuasivo */}
-            <h1 className="hero-animate opacity-0 font-serif text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.1] mb-6">
+            {/* Título */}
+            <h1 className={`${isScreenshotMode ? '' : 'hero-animate opacity-0'} font-serif text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.1] mb-6`}>
               Sua Defesa Criminal
               <br />
               <span className="text-[#C9A84C] relative">
@@ -73,15 +76,15 @@ export default function Hero() {
               </span>
             </h1>
 
-            {/* Subtítulo Persuasivo */}
-            <p className="hero-animate opacity-0 text-lg md:text-xl text-white/70 leading-relaxed mb-8 max-w-xl">
+            {/* Subtítulo */}
+            <p className={`${isScreenshotMode ? '' : 'hero-animate opacity-0'} text-lg md:text-xl text-white/70 leading-relaxed mb-8 max-w-xl`}>
               Defesa estratégica em Direito Penal com mais de 500 casos bem-sucedidos. 
               <span className="text-white font-medium"> Dra. Isabella Mendes</span> atua 
               com compromisso, ética e excelência técnica para garantir seus direitos.
             </p>
 
             {/* Diferenciais */}
-            <div className="hero-animate opacity-0 grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+            <div className={`${isScreenshotMode ? '' : 'hero-animate opacity-0'} grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8`}>
               <div className="flex items-center gap-2 text-white/80">
                 <CheckCircle className="w-5 h-5 text-[#C9A84C] flex-shrink-0" />
                 <span className="text-sm">Atendimento personalizado</span>
@@ -101,7 +104,7 @@ export default function Hero() {
             </div>
 
             {/* CTAs */}
-            <div className="hero-animate opacity-0 flex flex-col sm:flex-row gap-4">
+            <div className={`${isScreenshotMode ? '' : 'hero-animate opacity-0'} flex flex-col sm:flex-row gap-4`}>
               <Link
                 href="#contato"
                 className="group inline-flex items-center justify-center gap-2 bg-[#C9A84C] text-[#0A1628] px-8 py-4 rounded-full font-semibold hover:bg-[#B8973A] transition-all duration-300 hover:scale-105 shadow-xl shadow-[#C9A84C]/25"
@@ -118,7 +121,7 @@ export default function Hero() {
             </div>
 
             {/* Stats */}
-            <div className="hero-animate opacity-0 flex flex-wrap gap-8 pt-8 mt-4 border-t border-white/10">
+            <div className={`${isScreenshotMode ? '' : 'hero-animate opacity-0'} flex flex-wrap gap-8 pt-8 mt-4 border-t border-white/10`}>
               <div className="flex items-center gap-3">
                 <Award className="w-6 h-6 text-[#C9A84C]" />
                 <div>
@@ -145,22 +148,19 @@ export default function Hero() {
 
           {/* Right Column - Image */}
           <div className="order-1 lg:order-2 relative">
-            <div className="hero-animate opacity-0 relative">
-              {/* Container da imagem com tamanho reduzido */}
+            <div className={`${isScreenshotMode ? '' : 'hero-animate opacity-0'} relative`}>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-[#C9A84C]/20 bg-[#0A1628] max-w-md mx-auto lg:max-w-full">
-                <div className="relative w-full" style={{ aspectRatio: '600/548' }}>
+                <div className="relative w-full" style={{ aspectRatio: '1/1' }}>
                   <Image
                     src="/dra-isabella-mendes.jpg"
                     alt="Dra. Isabella Mendes - Advogada Criminalista"
                     fill
                     className="object-cover object-center"
                     priority
-                    quality={85}
+                    quality={100}
+                    unoptimized
                     sizes="(max-width: 768px) 100vw, 35vw"
-                    loading="eager"
-                    fetchPriority="high"
                   />
-                  {/* Borda dourada sutil */}
                   <div className="absolute inset-0 border border-[#C9A84C]/10 rounded-2xl pointer-events-none" />
                 </div>
               </div>

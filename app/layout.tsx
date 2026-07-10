@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import { ScreenshotProvider } from "@/context/ScreenshotContext";
 import "./globals.css";
 
 const inter = Inter({ 
@@ -32,7 +33,9 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
       </head>
       <body className={`${inter.variable} ${playfair.variable} font-sans`}>
-        {children}
+        <ScreenshotProvider>
+          {children}
+        </ScreenshotProvider>
       </body>
     </html>
   );

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { useScreenshot } from "@/context/ScreenshotContext";
 
 const testimonials = [
   {
@@ -29,10 +30,13 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
+  const { isScreenshotMode } = useScreenshot();
   const [currentIndex, setCurrentIndex] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (isScreenshotMode) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -48,7 +52,7 @@ export default function Testimonials() {
     elements?.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, []);
+  }, [isScreenshotMode]);
 
   const next = () => {
     setCurrentIndex((prev) => (prev + 1) % testimonials.length);
@@ -67,17 +71,17 @@ export default function Testimonials() {
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-block text-[#C9A84C] font-semibold text-sm uppercase tracking-[0.2em] mb-4">
+          <span className={`${isScreenshotMode ? '' : 'testimonial-animate opacity-0'} inline-block text-[#C9A84C] font-semibold text-sm uppercase tracking-[0.2em] mb-4`}>
             Depoimentos
           </span>
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className={`${isScreenshotMode ? '' : 'testimonial-animate opacity-0'} font-serif text-4xl md:text-5xl font-bold text-white mb-6`}>
             O que meus clientes dizem
           </h2>
-          <div className="w-24 h-1 bg-[#C9A84C] mx-auto" />
+          <div className={`${isScreenshotMode ? '' : 'testimonial-animate opacity-0'} w-24 h-1 bg-[#C9A84C] mx-auto`} />
         </div>
 
         {/* Testimonial Card */}
-        <div className="max-w-4xl mx-auto testimonial-animate opacity-0">
+        <div className={`max-w-4xl mx-auto ${isScreenshotMode ? '' : 'testimonial-animate opacity-0'}`}>
           <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-white/10">
             <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
               {/* Avatar */}

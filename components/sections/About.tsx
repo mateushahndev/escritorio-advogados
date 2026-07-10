@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { Scale, BookOpen, Users, Target } from "lucide-react";
+import { useScreenshot } from "@/context/ScreenshotContext";
 
 const stats = [
   { icon: Scale, label: "Casos Defendidos", value: "500+" },
@@ -12,7 +13,28 @@ const stats = [
 ];
 
 export default function About() {
+  const { isScreenshotMode } = useScreenshot();
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isScreenshotMode) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-fade-in-up");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const elements = sectionRef.current?.querySelectorAll(".about-animate");
+    elements?.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [isScreenshotMode]);
 
   return (
     <section id="sobre" ref={sectionRef} className="py-16 md:py-24 bg-[#0A1628] relative overflow-hidden">
@@ -42,17 +64,17 @@ export default function About() {
           {/* Right Column - Content */}
           <div className="space-y-6 md:space-y-8">
             <div className="space-y-3 md:space-y-4">
-              <span className="inline-block text-[#C9A84C] font-semibold text-xs md:text-sm uppercase tracking-[0.2em]">
+              <span className={`${isScreenshotMode ? '' : 'about-animate opacity-0'} inline-block text-[#C9A84C] font-semibold text-xs md:text-sm uppercase tracking-[0.2em]`}>
                 Sobre Mim
               </span>
-              <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+              <h2 className={`${isScreenshotMode ? '' : 'about-animate opacity-0'} font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-white`}>
                 Defendendo seus Direitos
                 <br />
                 <span className="text-[#C9A84C]">com Dedicação</span>
               </h2>
             </div>
 
-            <div className="space-y-3 md:space-y-4 text-white/70 text-sm md:text-base leading-relaxed">
+            <div className={`${isScreenshotMode ? '' : 'about-animate opacity-0'} space-y-3 md:space-y-4 text-white/70 text-sm md:text-base leading-relaxed`}>
               <p>
                 Sou a <strong className="text-white">Dra. Isabella Mendes</strong>, advogada criminalista 
                 com mais de 12 anos de experiência dedicados à defesa dos direitos 
@@ -72,7 +94,7 @@ export default function About() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 gap-3 md:gap-6 pt-2 md:pt-4">
+            <div className={`${isScreenshotMode ? '' : 'about-animate opacity-0'} grid grid-cols-2 gap-3 md:gap-6 pt-2 md:pt-4`}>
               {stats.map((stat, index) => (
                 <div key={index} className="bg-white/5 rounded-xl p-3 md:p-4 border border-white/10 hover:border-[#C9A84C]/30 transition-all duration-300">
                   <stat.icon className="w-5 h-5 md:w-6 md:h-6 text-[#C9A84C] mb-1 md:mb-2" />
@@ -82,7 +104,7 @@ export default function About() {
               ))}
             </div>
 
-            <div className="pt-2 md:pt-4">
+            <div className={`${isScreenshotMode ? '' : 'about-animate opacity-0'} pt-2 md:pt-4`}>
               <div className="w-12 md:w-16 h-[2px] bg-[#C9A84C] mb-2 md:mb-3" />
               <p className="text-white/50 text-xs md:text-sm font-serif italic">
                 "A justiça é a virtude de dar a cada um o que é seu."
