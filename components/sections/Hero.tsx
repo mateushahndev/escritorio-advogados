@@ -33,7 +33,10 @@ export default function Hero() {
   return (
     <section 
       ref={sectionRef} 
-      className="relative min-h-screen flex items-center overflow-hidden bg-[#0A1628]"
+      className={`
+        relative flex items-center overflow-hidden bg-[#0A1628]
+        ${isScreenshotMode ? 'min-h-[1080px] h-[1080px]' : 'min-h-screen'}
+      `}
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 z-0">
@@ -192,12 +195,14 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden md:block animate-bounce">
-        <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-2">
-          <div className="w-1 h-3 bg-[#C9A84C] rounded-full" />
+      {/* Scroll Indicator - esconder no modo screenshot */}
+      {!isScreenshotMode && (
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden md:block animate-bounce">
+          <div className="w-6 h-10 rounded-full border-2 border-white/20 flex items-start justify-center p-2">
+            <div className="w-1 h-3 bg-[#C9A84C] rounded-full" />
+          </div>
         </div>
-      </div>
+      )}
 
       <style jsx>{`
         @keyframes float {
